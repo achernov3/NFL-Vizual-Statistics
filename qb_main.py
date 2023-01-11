@@ -1,15 +1,15 @@
 import plotly.graph_objects as go
 from passing import Quarterbacks
 
-qb = Quarterbacks()
+qb = Quarterbacks("https://www.pro-football-reference.com/years/2022/passing.htm#passing")
 df = qb.df
 
-attempt = qb.object_to_int(stats=df["Att"])
-completed = qb.object_to_int(stats=df["Cmp"])
-percent = qb.object_to_float()
-yards = qb.object_to_int(stats=df["Yds"])
-players = qb.get_player_name()
-teams = qb.get_team_name()
+attempt = qb.turn_to_int64(stats=df["Att"])
+completed = qb.turn_to_int64(stats=df["Cmp"])
+percent = qb.turn_to_float64(per_game = df["Cmp%"])
+yards = qb.turn_to_int64(stats=df["Yds"])
+players = qb.get_rid_of(df["Player"])
+teams = qb.get_team_name(team = df["Tm"])
 
 fig = go.Figure(data=[
     go.Bar(name = "Количество попыток паса", x = players, y = attempt, marker_color = attempt, hovertext = teams, hovertemplate='<br>Имя игрока: %{x}<br>Статистика: %{y}<br>z: %{}<br>Команда: %{hovertext}', customdata=["google.com"]),
