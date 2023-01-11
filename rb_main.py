@@ -13,10 +13,12 @@ players = rb.get_rid_of(symbol = df["Unnamed: 1_level_0"]["Player"])
 teams = rb.get_team_name(team = df["Unnamed: 2_level_0"]["Tm"])
 
 fig = go.Figure(data=[
+    go.Bar(name = "Общее количество выносных ярдов", x = players, y = rushing_yds),
     go.Bar(name = "Среднее количество ярдов за игру", x = players, y = yds_per_game, hovertext = teams, hovertemplate='<br>Имя игрока: %{x}<br>Статистика: %{y}<br>z: %{}<br>Команда: %{hovertext}', customdata=["google.com"]),
     go.Bar(name = "Количество первых даунов", x = players, y = first_downs),
     go.Bar(name = "Количество выносных тачдаунов", x = players, y = rushing_tds),
-    go.Bar(name = "Общее количество выносных ярдов", x = players, y = rushing_yds)
+
+
 ])
 #
 fig.update_layout(

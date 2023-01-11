@@ -41,7 +41,11 @@ class Quarterbacks():
         return self.teams
 
     def turn_to_int64(self, stats):
-        """Изменить значения из Series в int64; исходный тип - object"""
+        """Изменить значения из Series в int64; исходный тип - object
+        @qb_stats - stats = df["%нужный показатель%"]
+        @wr_stats - stats = df["%нужный показатель%"]
+        @rb_stats - stats = df["Rushing"]["%нужный показатель%"]
+        """
         self.convert = [int(yard) for yard in stats]
         self.statistics = pd.Series(self.convert)
         return self.statistics
