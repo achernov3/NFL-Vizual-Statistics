@@ -1,4 +1,5 @@
 import pandas as pd
+from teams_abb import TEAMS_ABBREVIATION
 
 class Quarterbacks():
     """Класс для работы со статистикой квотербэков"""
@@ -6,45 +7,9 @@ class Quarterbacks():
     def __init__(self) -> None:
         self.QB = "quoterback.csv"
         self.TOP_TEN = 10
-        self.df = pd.read_csv(self.QB)[:self.TOP_TEN] # создаю объект DataFrame 10 лучших игроков, с которым будем работать
-        self.attempt = self.df["Att"]
-        self.completed = self.df["Cmp"]
-        self.percent = self.df["Cmp%"]
-        self.yards_per_attempt = self.df["Y/A"]
-        self.teams_abbreviation = {
-                    "ARI": "Arizona Cardinals", 
-                    "ATL": "Atlanta Falcons",
-                    "BAL": "Baltimore Ravens",
-                    "BUF": "Buffalo Bills",
-                    "CAR": "Carolina Panthers",
-                    "CHI": "Chicago Bears",
-                    "CIN": "Cincinnati Bengals", 
-                    "CLE": "Cleveland Browns",
-                    "DAL": "Dallas Cowboys",
-                    "DEN": "Denver Broncos",
-                    "DET": "Detroit Lions",
-                    "GNB": "Green Bay Packers",
-                    "HOU": "Houston Texans",
-                    "IND": "Indianapolis Colts",
-                    "JAX": "Jacksonville Jaguars",
-                    "KAN": "Kansas City Chiefs",
-                    "LVR": "Las Vegas Raiders",
-                    "LAC": "Los Angeles Chargers",
-                    "LAR": "Los Angeles Rams",
-                    "MIA": "Miami Dolphins",
-                    "MIN": "Minnesota Vikings",
-                    "NWE": "New England Patriots",
-                    "NOR": "New Orleans Saints",
-                    "NYG": "New York Giants",
-                    "NYJ": "New York Jets",
-                    "PHI": "Philadelphia Eagles",
-                    "PIT": "Pittsburgh Steelers",
-                    "SFO": "San Francisco 49ers",
-                    "SEA": "Seattle Seahawks",
-                    "TAM": "Tampa Bay Buccaneers",
-                    "TEN": "Tennessee Titans",
-                    "WAS": "Washington Commanders"
-                    }
+        #self.df = pd.read_csv(self.QB)[:self.TOP_TEN] # создаю объект DataFrame 10 лучших игроков, с которым будем работать
+        self.df = pd.read_html("https://www.pro-football-reference.com/years/2022/passing.htm#passing")[0][:self.TOP_TEN]
+
 
     def get_player_name(self):
         """Получение имени игрока"""
@@ -61,6 +26,19 @@ class Quarterbacks():
         # Добавляем в список abbreviation полные названия и возращаем teams -> Series
         self.abbreviation = [] 
         for value in self.team.values:
-            self.abbreviation.append(self.teams_abbreviation[value])
+            self.abbreviation.append(TEAMS_ABBREVIATION.get(value))
         self.teams = pd.Series(self.abbreviation)
         return self.teams
+
+    def object_to_int(self, stats):
+        """Изменить значения из Series в int64; исходный тип - object"""
+        self.stat = [int(yard) for yard in stats]
+        self.statistics = pd.Series(self.stat)
+        return self.statistics
+
+    def object_to_float(self):
+        """Изменить значения из Series в float64; исходный тип - object"""
+        self.cmp = self.df["Cmp%"]
+        self.cmp_per = [float(yard) for yard in self.cmp]
+        self.completed_percent = pd.Series(self.cmp_per)
+        return self.completed_percent

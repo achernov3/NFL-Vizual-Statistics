@@ -1,53 +1,13 @@
 import pandas as pd
+from teams_abb import TEAMS_ABBREVIATION
 
-class Information():
-    """Информационный класс"""
+class RunningBacks():
+    """Класс для работы со статистикой раннин бэков"""
     def __init__(self) -> None:
         self.URL = "https://www.pro-football-reference.com/years/2022/rushing.htm#rushing"
         self.TOP_TEN = 10
         self.df = pd.read_html(self.URL)[0][:self.TOP_TEN]
         self.yds_per_game = self.df["Rushing"]["Y/G"]
-        self.teams_abbreviation = {
-                    "ARI": "Arizona Cardinals", 
-                    "ATL": "Atlanta Falcons",
-                    "BAL": "Baltimore Ravens",
-                    "BUF": "Buffalo Bills",
-                    "CAR": "Carolina Panthers",
-                    "CHI": "Chicago Bears",
-                    "CIN": "Cincinnati Bengals", 
-                    "CLE": "Cleveland Browns",
-                    "DAL": "Dallas Cowboys",
-                    "DEN": "Denver Broncos",
-                    "DET": "Detroit Lions",
-                    "GNB": "Green Bay Packers",
-                    "HOU": "Houston Texans",
-                    "IND": "Indianapolis Colts",
-                    "JAX": "Jacksonville Jaguars",
-                    "KAN": "Kansas City Chiefs",
-                    "LVR": "Las Vegas Raiders",
-                    "LAC": "Los Angeles Chargers",
-                    "LAR": "Los Angeles Rams",
-                    "MIA": "Miami Dolphins",
-                    "MIN": "Minnesota Vikings",
-                    "NWE": "New England Patriots",
-                    "NOR": "New Orleans Saints",
-                    "NYG": "New York Giants",
-                    "NYJ": "New York Jets",
-                    "PHI": "Philadelphia Eagles",
-                    "PIT": "Pittsburgh Steelers",
-                    "SFO": "San Francisco 49ers",
-                    "SEA": "Seattle Seahawks",
-                    "TAM": "Tampa Bay Buccaneers",
-                    "TEN": "Tennessee Titans",
-                    "WAS": "Washington Commanders"
-                    }
-
-
-class RunningBacks(Information):
-    """Класс для работы со статистикой раннин бэков"""
-    def __init__(self) -> None:
-        super().__init__()
-
 
     def get_player_name(self):
         """Получение имени игрока"""
@@ -64,7 +24,7 @@ class RunningBacks(Information):
         # Добавляем в список abbreviation полные названия и возращаем teams -> Series
         self.abbreviation = [] 
         for value in self.team.values:
-            self.abbreviation.append(self.teams_abbreviation.get(value, "San Francisco 49ers"))
+            self.abbreviation.append(TEAMS_ABBREVIATION.get(value, "San Francisco 49ers"))
         self.teams = pd.Series(self.abbreviation)
         return self.teams
     
