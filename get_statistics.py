@@ -1,7 +1,7 @@
 import pandas as pd
 from teams_abb import TEAMS_ABBREVIATION
 
-class Quarterbacks():
+class Stats():
     """Класс для работы со статистикой квотербэков
     @position - ссылка на статистику по позициям"""
 

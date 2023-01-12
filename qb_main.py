@@ -1,7 +1,8 @@
 import plotly.graph_objects as go
-from passing import Quarterbacks
+from get_statistics import Stats
+from create_figure import Histo
 
-qb = Quarterbacks("https://www.pro-football-reference.com/years/2022/passing.htm#passing")
+qb = Stats("https://www.pro-football-reference.com/years/2022/passing.htm#passing")
 df = qb.df
 
 attempt = qb.turn_to_int64(stats=df["Att"])
@@ -11,21 +12,25 @@ yards = qb.turn_to_int64(stats=df["Yds"])
 players = qb.get_rid_of(df["Player"])
 teams = qb.get_team_name(team = df["Tm"])
 
-fig = go.Figure(data=[
-    go.Bar(name = "Количество попыток паса", x = players, y = attempt, marker_color = attempt, hovertext = teams, hovertemplate='<br>Имя игрока: %{x}<br>Статистика: %{y}<br>z: %{}<br>Команда: %{hovertext}', customdata=["google.com"]),
-    go.Bar(name = "Успешных пасов", x = players, y = completed, marker_color = completed),
-    go.Bar(name = "Отношение количества к успешным попыткам", x = players, y = percent, marker_color = percent),
-    go.Bar(name = "Общее количество ярдов за сезон", x = players, y = yards, marker_color = yards)
-])
+histogram = Histo(players=players, teams=teams, attempt=attempt, completed=completed, percent=percent, yards=yards)
 
-fig.update_layout(
-    title_text = "Статистика 10 лучших квотербэков 2022",
-    barmode = "group", 
-    xaxis = {"categoryorder": "total ascending"},
-    xaxis_title = "Имя игрока", 
-    yaxis_title = "Общая статистика пасовой игры квотербеков",
-    hovermode = "closest"
-    )
+fig = histogram.make_histo(players=players, teams=teams, attempt=attempt, completed=completed)
+fig = histogram.layout(players=players, teams=teams, attempt=attempt, completed=completed)
+#fig = go.Figure(data=[
+#    go.Bar(name = "Количество попыток паса", x = players, y = attempt, marker_color = attempt, hovertext = teams, hovertemplate='<br>Имя игрока: %{x}<br>Статистика: %{y}<br>z: %{}<br>Команда: %{hovertext}', customdata=["google.com"]),
+#    go.Bar(name = "Успешных пасов", x = players, y = completed, marker_color = completed),
+#    go.Bar(name = "Отношение количества к успешным попыткам", x = players, y = percent, marker_color = percent),
+#    go.Bar(name = "Общее количество ярдов за сезон", x = players, y = yards, marker_color = yards)
+#])
+#
+#fig.update_layout(
+#    title_text = "Статистика 10 лучших квотербэков 2022",
+#    barmode = "group", 
+#    xaxis = {"categoryorder": "total ascending"},
+#    xaxis_title = "Имя игрока", 
+#    yaxis_title = "Общая статистика пасовой игры квотербеков",
+#    hovermode = "closest"
+#    )
 
 
 fig.show()

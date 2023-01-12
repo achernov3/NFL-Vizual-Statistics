@@ -1,8 +1,8 @@
 import plotly.graph_objects as go
-from passing import Quarterbacks
+from get_statistics import Stats
 
 
-rb = Quarterbacks("https://www.pro-football-reference.com/years/2022/rushing.htm#rushing")
+rb = Stats("https://www.pro-football-reference.com/years/2022/rushing.htm#rushing")
 df = rb.df
 
 rushing_yds = rb.turn_to_int64(stats = df["Rushing"]["Yds"])
