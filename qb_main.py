@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 from plotly import offline
 from get_statistics import Stats
-from create_figure import Histo
 
 qb = Stats("https://www.pro-football-reference.com/years/2022/passing.htm#passing")
 df = qb.df
@@ -12,11 +11,6 @@ percent = qb.turn_to_float64(per_game = df["Cmp%"])
 yards = qb.turn_to_int64(stats=df["Yds"])
 players = qb.get_rid_of(df["Player"])
 teams = qb.get_team_name(team = df["Tm"])
-
-#histogram = Histo(players=players, teams=teams, attempt=attempt, completed=completed, percent=percent, yards=yards)
-#
-#fig = histogram.make_histo(players=players, teams=teams, attempt=attempt, completed=completed)
-#fig = histogram.layout(players=players, teams=teams, attempt=attempt, completed=completed)
 
 fig = go.Figure(data=[
     go.Bar(name = "Количество попыток паса", x = players, y = attempt, marker_color = attempt, hovertext = teams, hovertemplate='<br>Имя игрока: %{x}<br>Статистика: %{y}<br>z: %{}<br>Команда: %{hovertext}', customdata=["google.com"]),

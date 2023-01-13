@@ -60,8 +60,3 @@ class Stats():
         self.convert = [float(yard) for yard in self.pg]
         self.per_game = pd.Series(self.convert)
         return self.per_game
-
-class BarChart(Stats):
-    """Подкласс работы с построением графиков на основе Stats"""
-    def __init__(self, position: str) -> None:
-        super().__init__(position)
